@@ -1,0 +1,39 @@
+#!/usr/bin/python2
+# -*- coding: utf-8; mode: Python; indent-tabs-mode: t -*-
+
+import sys
+import re
+import codecs
+
+if __name__!="__main__":
+	sys.exit()
+
+def replace_stress_mark(m):
+	return m.group(0)[0].upper()
+
+stress_regex=re.compile(u"[аеиоуыэюя]'")
+
+def load(path):
+	d=dict()
+	with codecs.open(path,"r","utf-8") as f:
+		for line in f:
+			e,c=line.split()
+			c=int(c)
+			w=e.replace("'","")
+			v=d.get(w,None)
+			if v and v[1]>=c:
+				continue
+			p=stress_regex.sub(replace_stress_mark,e).replace("'","")
+			d[w]=(p,c)
+	return d
+
+def save(d,path):
+	with codecs.open(path,"w","utf-8") as f:
+		for k,v in sorted(d.items()):
+			f.write(u" ".join(k))
+			f.write("\n")
+			f.write(u" ".join(v[0]))
+			f.write("\n")
+
+d=load(sys.argv[1])
+save(d,"wiki.txt")
