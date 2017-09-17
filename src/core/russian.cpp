@@ -69,7 +69,8 @@ namespace RHVoice
     split_fst(path::join(info_.get_data_path(),"split.fst")),
     dict_fst(path::join(info_.get_data_path(),"dict.fst")),
     stress_fst(path::join(info_.get_data_path(),"stress.fst")),
-    stress_rules(path::join(info_.get_data_path(),"stress.fsm"),io::integer_reader<uint8_t>())
+    stress_rules(path::join(info_.get_data_path(),"stress.fsm"),io::integer_reader<uint8_t>()),
+    wiki_fst(path::join(info_.get_data_path(),"wiki.fst"))
   {
     try
       {
@@ -230,11 +231,11 @@ namespace RHVoice
     return true;
   }
 
-  bool russian::transcribe_word_from_stress_dict(const item& word,std::vector<std::string>& transcription) const
+  bool russian::transcribe_word_from_stress_dict(const fst& dfst,const item& word,std::vector<std::string>& transcription) const
   {
     const std::string& name=word.get("name").as<std::string>();
     std::vector<std::string> stressed;
-    if(stress_fst.translate(str::utf8_string_begin(name),str::utf8_string_end(name),std::back_inserter(stressed)))
+    if(dfst.translate(str::utf8_string_begin(name),str::utf8_string_end(name),std::back_inserter(stressed)))
       {
         g2p_fst.translate(stressed.begin(),stressed.end(),std::back_inserter(transcription));
         return true;
@@ -298,7 +299,8 @@ namespace RHVoice
       transcribe_word_with_stress_marks(word,transcription)||
       transcribe_word_from_dict(word,transcription)||
       transcribe_word_from_rulex(word,transcription)||
-      transcribe_word_from_stress_dict(word,transcription)||
+      transcribe_word_from_stress_dict(stress_fst,word,transcription)||
+      transcribe_word_from_stress_dict(wiki_fst,word,transcription)||
       transcribe_monosyllabic_word(word,transcription)||
       transcribe_word_applying_stress_rules(word,transcription)||
       transcribe_unknown_word(word,transcription);

@@ -1,4 +1,4 @@
-/* Copyright (C) 2012, 2014  Olga Yakovleva <yakovleva.o.v@gmail.com> */
+/* Copyright (C) 2012, 2014, 2017  Olga Yakovleva <yakovleva.o.v@gmail.com> */
 
 /* This program is free software: you can redistribute it and/or modify */
 /* it under the terms of the GNU Lesser General Public License as published by */
@@ -80,7 +80,7 @@ namespace RHVoice
     bool transcribe_word_with_stress_marks(const item& word,std::vector<std::string>& transcription) const;
     bool transcribe_word_from_dict(const item& word,std::vector<std::string>& transcription) const;
     bool transcribe_monosyllabic_word(const item& word,std::vector<std::string>& transcription) const;
-    bool transcribe_word_from_stress_dict(const item& word,std::vector<std::string>& transcription) const;
+    bool transcribe_word_from_stress_dict(const fst& dfst,const item& word,std::vector<std::string>& transcription) const;
     bool transcribe_word_applying_stress_rules(const item& word,std::vector<std::string>& transcription) const;
     bool transcribe_unknown_word(const item& word,std::vector<std::string>& transcription) const;
     bool transcribe_word_from_rulex(const item& word,std::vector<std::string>& transcription) const;
@@ -95,6 +95,7 @@ namespace RHVoice
     const fst split_fst;
     const fst dict_fst;
     const fst stress_fst;
+    const fst wiki_fst;
     const rules<uint8_t> stress_rules;
     std::auto_ptr<fst> rulex_dict_fst,rulex_rules_fst;
   };
