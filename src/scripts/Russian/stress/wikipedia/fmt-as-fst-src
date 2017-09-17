@@ -11,6 +11,7 @@ if __name__!="__main__":
 def replace_stress_mark(m):
 	return m.group(0)[0].upper()
 
+vowel_regex=re.compile(u"[аеёиоуыэюя]")
 stress_regex=re.compile(u"[аеиоуыэюя]'")
 
 def load(path):
@@ -18,12 +19,16 @@ def load(path):
 	with codecs.open(path,"r","utf-8") as f:
 		for line in f:
 			e,c=line.split()
+			if len(vowel_regex.findall(e)) <2:
+				continue
 			c=int(c)
 			w=e.replace("'","")
 			v=d.get(w,None)
 			if v and v[1]>=c:
 				continue
 			p=stress_regex.sub(replace_stress_mark,e).replace("'","")
+			if w==p:
+				continue
 			d[w]=(p,c)
 	return d
 
