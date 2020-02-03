@@ -3,6 +3,7 @@
 ; Copyright (C) 2017-2020 Synthesizer of Ukrainian Speech team (https://facebook.com/syntezator)
 ; Coordinator and author:
 ; Volodymyr Pyrih <vp88.mobile@gmail.com>
+; ANT Berezhnyi <velmyshanovnyi@gmail.com> t.me@velmyshanovnyi
 
 apk/i
 it/i
@@ -76,6 +77,7 @@ wba/i
 випр+обуванн*
 випр+остуюсь
 в+ирішаться
+вир+ішува*
 в+ирок*
 {висловили,висловлені,висловлено,жахливі,зібрав,зібралися,зібрані,зібрано,мої,непогані,неприємні,озвучені,озвучено,погані,прекрасні,приємні,свої,такі,тихі,твої,ті,ці,чудові,чужі,які,якісь} думк+и
 в+исоко
